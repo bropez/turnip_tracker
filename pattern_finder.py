@@ -1,69 +1,90 @@
 """
-This is the pattern finder test script
+This is the pattern finder test script version 2
 """
 
 
-def pattern_finder(mon_price, tues_price, wed_price, thurs_price, fri_price):
-    week_vals = [mon_price, tues_price, wed_price, thurs_price, fri_price]
-    is_decreasing = True
-    increase_decrease_flag = False
-    is_random = False
-    big_peak = False
-    small_peak = False
-    increase_counter = 0
-    prev_value = 10000
-    for day in week_vals:
-        print("Current: " + str(day), "Previous: " + str(prev_value))
-        # Checks if we have decreasing pattern
-        # Decreasing is the default, if anything is above previous then the switch occurs and we are no longer
-        # in the decreasing pattern and opens up opportunities for other patterns to be seen
-        if prev_value <= day:
-            is_decreasing = False
-            increase_counter += 1
-        elif prev_value > day and increase_counter > -1:
-            increase_counter -= 1
-            if increase_counter is 0:
-                increase_decrease_flag = True
+def is_decreasing(buying, mon_val, tues_val, wed_val, thurs_val, fri_val):
+    week = [mon_val, tues_val, wed_val, thurs_val, fri_val]
+    decrease = True
+    prev_val = buying
+    for price in week:
+        print("Previous: " + str(prev_val), "Current: " + str(price))
+        # This is checking if there is a decrease or stagnant price, there usually isn't a stagnant price so I might
+        # take that out later. If there ever is an increase then we throw a flag and break the loop and return the
+        # decision
+        if prev_val <= price:
+            decrease = False
+            # print("It stops here.")
+            break
+        prev_val = price
 
-        # This checks to see if there is an increase and then a decrease
-        # Since the beginning number is arbitrarily set, it will always be a decrease first
-        if is_decreasing is False and increase_decrease_flag:
-            print("We've reached the random phase.")
-            is_random = True
-
-        # Check to see if we have the small peak or big peak
-        # if increase_counter is 3 and day >= 250 for big peak
-        if is_decreasing is False and increase_counter is 3 and day >= 250:
-            big_peak = True
-
-        # if increase_counter is 3 and day < 250 for small peak
-        if is_decreasing is False and increase_counter is 3 and day < 250:
-            small_peak = True
-        prev_value = day
-
-    text = "A pattern wasn't chosen."
-    if is_decreasing:
-        text = "This is a decreasing pattern."
-    elif is_random:
-        text = "This is the random pattern."
-    elif big_peak:
-        text = "This is the big peak, sell them now."
-    elif small_peak:
-        text = "This is the small peak, wait for one more and sell them."
-
-    print(text)
-    # print("The increase counter is " + str(increase_counter))
-    print("\n\n")
+    return decrease
 
 
-print("This is a decreasing pattern.")
-pattern_finder(100, 90, 80, 70, 60)
+def is_random(buying, mon_val, tues_val, wed_val, thurs_val, fri_val):
+    week = [mon_val, tues_val, wed_val, thurs_val, fri_val]
+    random = True
+    prev_val = buying
+    increase_times = 0
+    for price in week:
+        print("Previous: " + str(prev_val), "Current: " + str(price))
 
-print("This is a random pattern.")
-pattern_finder(100, 110, 90, 95, 50)
+        # This is to check if there has been an increase which is vital for a random pattern.
+        if prev_val < price:
+            increase_times += 1
+            # print("Increased.")
 
-print("This is the big peak")
-pattern_finder(100, 120, 270, 80, 10)
+        # This is to check if it is decreasing and is above 0, we don't want any negative numbers
+        # when trying this or else it'll ruin things.
+        elif prev_val > price and increase_times > 0:
+            increase_times -= 1
+            # print("Decreased")
 
-print("This is the small peak")
-pattern_finder(100, 130, 140, 155, 80)
+        # Checking to see if it increased more than once. Random patterns have one increase and then
+        # an immediate decrease
+        if increase_times > 1:
+            # print("Random can't go above 1 increase proving it is random")
+            random = False
+            break
+
+        prev_val = price
+
+    return random
+
+
+def is_big_peak(buying, mon_val, tues_val, wed_val, thurs_val, fri_val):
+    week = [mon_val, tues_val, wed_val, thurs_val, fri_val]
+    big_peak = True
+    prev_val = buying
+    increase_times = 0
+    for price in week:
+        print("Previous: " + str(prev_val), "Current: " + str(price))
+
+        # We check to see if there is an increase in price. If there is then we increment the counter. If the counter
+        # gets to 3 and it is less than 250 then we know that it is small peak. If not then we have big peak.
+        if prev_val < price:
+            increase_times += 1
+            # print("Increased.")
+        elif prev_val > price and increase_times > 0:
+            increase_times -= 1
+            # print("Decreased")
+        if increase_times is 3 and price < 250:
+            big_peak = False
+            break
+
+    return big_peak
+
+
+# You just need to fill these values with the values from the gui
+# TODO: Expand this from 5 values to 10 values, accounting for am and pm prices
+# TODO: Change the print statements to instructions on what to do with each pattern regarding bells
+if not is_decreasing(98, 99, 100, 115, 80, 60):
+    if not is_random(98, 99, 100, 115, 80, 60):
+        if not is_big_peak(98, 99, 100, 115, 80, 60):
+            print("You have small peak.")
+        else:
+            print("You have big peak.")
+    else:
+        print("You have random.")
+else:
+    print("You have decreasing.")
