@@ -3,8 +3,8 @@ This is the pattern finder test script version 2
 """
 
 
-def is_decreasing(buying, mon_val, tues_val, wed_val, thurs_val, fri_val):
-    week = [mon_val, tues_val, wed_val, thurs_val, fri_val]
+def is_decreasing(buying, monam_val, monpm_val, tuesam_val, tuespm_val, wedam_val, wedpm_val, thursam_val, thurspm_val, friam_val, fripm_val):
+    week = [monam_val, monpm_val, tuesam_val, tuespm_val, wedam_val, wedpm_val, thursam_val, thurspm_val, friam_val, fripm_val]
     decrease = True
     prev_val = buying
     for price in week:
@@ -21,8 +21,8 @@ def is_decreasing(buying, mon_val, tues_val, wed_val, thurs_val, fri_val):
     return decrease
 
 
-def is_random(buying, mon_val, tues_val, wed_val, thurs_val, fri_val):
-    week = [mon_val, tues_val, wed_val, thurs_val, fri_val]
+def is_random(buying, monam_val, monpm_val, tuesam_val, tuespm_val, wedam_val, wedpm_val, thursam_val, thurspm_val, friam_val, fripm_val):
+    week = [monam_val, monpm_val, tuesam_val, tuespm_val, wedam_val, wedpm_val, thursam_val, thurspm_val, friam_val, fripm_val]
     random = True
     prev_val = buying
     increase_times = 0
@@ -52,8 +52,8 @@ def is_random(buying, mon_val, tues_val, wed_val, thurs_val, fri_val):
     return random
 
 
-def is_big_peak(buying, mon_val, tues_val, wed_val, thurs_val, fri_val):
-    week = [mon_val, tues_val, wed_val, thurs_val, fri_val]
+def is_big_peak(buying, monam_val, monpm_val, tuesam_val, tuespm_val, wedam_val, wedpm_val, thursam_val, thurspm_val, friam_val, fripm_val):
+    week = [monam_val, monpm_val, tuesam_val, tuespm_val, wedam_val, wedpm_val, thursam_val, thurspm_val, friam_val, fripm_val]
     big_peak = True
     prev_val = buying
     increase_times = 0
@@ -73,18 +73,3 @@ def is_big_peak(buying, mon_val, tues_val, wed_val, thurs_val, fri_val):
             break
 
     return big_peak
-
-
-# You just need to fill these values with the values from the gui
-# TODO: Expand this from 5 values to 10 values, accounting for am and pm prices
-# TODO: Change the print statements to instructions on what to do with each pattern regarding bells
-if not is_decreasing(98, 99, 100, 115, 80, 60):
-    if not is_random(98, 99, 100, 115, 80, 60):
-        if not is_big_peak(98, 99, 100, 115, 80, 60):
-            print("You have small peak.")
-        else:
-            print("You have big peak.")
-    else:
-        print("You have random.")
-else:
-    print("You have decreasing.")
