@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Stalk Market Page</title>
+</head>
+<body>
+
+<form id="my_form">
+    Monday AM: <input type="text" class="prices"><br/>
+    Monday PM: <input type="text" class="prices"><br/>
+    Tuesday AM: <input type="text" class="prices"><br/>
+    Tuesday PM: <input type="text" class="prices"><br/>
+    Wednesday AM: <input type="text" class="prices"><br/>
+    Wednesday PM: <input type="text" class="prices"><br/>
+    Thursday AM: <input type="text" class="prices"><br/>
+    Thursday PM: <input type="text" class="prices"><br/>
+    Friday AM: <input type="text" class="prices"><br/>
+    Friday PM: <input type="text" class="prices"><br/>
+    Saturday AM: <input type="text" class="prices"><br/>
+    Saturday PM: <input type="text" class="prices"><br/>
+
+    <input type="button" onclick="pattern_checker()" value="Submit">
+</form>
+
+<script>
+
+    function fill_array(my_array) {
+        let prices = document.getElementsByClassName("prices");
+        for(let i = 0; i < prices.length; i++) {
+            my_array[i] = prices[i].value;
+        }
+
+        return my_array;
+    }
+
+    function check_for_decrease(prev, curr) {
+        if((prev > curr) || (!prev)){
+            return true;
+        }
+        return false;
+    }
+
+    function sell_at(pattern, number) {
+        console.log("It is", pattern, " sell at", number);
+    }
+
+    function pattern_checker() {
+        let decrease = true;
+        let increase_count = 0;
+        let all_prices = new Array(10);
+
+        all_prices = fill_array(all_prices)
+
+        for (let i = 0; i < all_prices.length; i++) {
+
+            if (decrease && increase_count) {
+                if (all_prices[i] >= 110) {
+                    sell_at("random", all_prices[i]);
+                    return all_prices[i];
+                }
+            }
+
+            decrease = check_for_decrease(all_prices[i - 1], all_prices[i]);
+
+            if (decrease === false) {
+                increase_count++;
+                if ((increase_count === 3) && (all_prices[i] >= 250)) {
+                    sell_at("big spike", all_prices[i]);
+                    return all_prices[i];
+                }
+                if (increase_count === 4) {
+                    sell_at("small spike", all_prices[i]);
+                    return all_prices[i];
+                }
+            }
+        }
+    }
+</script>
+</body>
+</html>
