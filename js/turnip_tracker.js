@@ -1,7 +1,7 @@
 function fill_array(my_array) {
     let prices = document.getElementsByClassName("prices");
     for(let i = 0; i < prices.length; i++) {
-        my_array[i] = prices[i].value;
+        my_array[i] = parseInt(prices[i].value);
     }
 
     return my_array;
@@ -17,35 +17,41 @@ function check_for_decrease(prev, curr) {
 function sell_at(pattern, number) {
     let message = ("It is " + pattern + " sell at " + number);
     document.getElementById("pattern").innerHTML = message;
+    console.log(message);
 }
 
 function pattern_checker() {
     let decrease = true;
     let increase_count = 0;
     let all_prices = new Array(10);
+    let is_random = false;
 
     all_prices = fill_array(all_prices)
 
     for (let i = 0; i < all_prices.length; i++) {
+        decrease = check_for_decrease(all_prices[i - 1], all_prices[i]);
 
-        if (decrease && increase_count) {
+        // TODO: implement an always decreasing pattern without affecting everything else
+        if (is_random) {
             if (all_prices[i] >= 110) {
                 sell_at("random", all_prices[i]);
                 return all_prices[i];
             }
         }
-
-        decrease = check_for_decrease(all_prices[i - 1], all_prices[i]);
-
-        if (decrease === false) {
-            increase_count++;
-            if ((increase_count === 3) && (all_prices[i] >= 250)) {
-                sell_at("big spike", all_prices[i]);
-                return all_prices[i];
+        else {
+            if (decrease === false) {
+                increase_count++;
+                if ((increase_count === 3) && (all_prices[i] >= 250)) {
+                    sell_at("big spike", all_prices[i]);
+                    return all_prices[i];
+                }
+                if (increase_count === 4) {
+                    sell_at("small spike", all_prices[i]);
+                    return all_prices[i];
+                }
             }
-            if (increase_count === 4) {
-                sell_at("small spike", all_prices[i]);
-                return all_prices[i];
+            else if (decrease && increase_count) {
+                is_random = true;
             }
         }
     }
