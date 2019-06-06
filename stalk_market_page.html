@@ -2,33 +2,39 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Stalk Market Page</title>
-
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    <title>nice form</title>
+    <link rel="stylesheet" href="css/nice_form_styles.css">
 </head>
-<body>
+<body class="background">
+<div class="main-form">
+    <p id="pattern">&nbsp;</p>
+    <i class="logo"></i>
+    <div class="turnip_logo"> </div>
+    <input type="number" class="prices" placeholder="Mon AM turnip price">
+    <input type="number" class="prices" placeholder="Mon PM turnip price">
 
-<div class="container">
-    <form id="my_form">
-        Monday AM: <input type="text" class="prices"><br/>
-        Monday PM: <input type="text" class="prices"><br/>
-        Tuesday AM: <input type="text" class="prices"><br/>
-        Tuesday PM: <input type="text" class="prices"><br/>
-        Wednesday AM: <input type="text" class="prices"><br/>
-        Wednesday PM: <input type="text" class="prices"><br/>
-        Thursday AM: <input type="text" class="prices"><br/>
-        Thursday PM: <input type="text" class="prices"><br/>
-        Friday AM: <input type="text" class="prices"><br/>
-        Friday PM: <input type="text" class="prices"><br/>
-        Saturday AM: <input type="text" class="prices"><br/>
-        Saturday PM: <input type="text" class="prices"><br/>
+    <input type="number" class="prices" placeholder="Tue AM turnip price">
+    <input type="number" class="prices" placeholder="Tue PM turnip price">
 
-        <input type="button" onclick="pattern_checker()" value="Submit">
-    </form>
-    <p id="pattern"></p>
+    <input type="number" class="prices" placeholder="Wed AM turnip price">
+    <input type="number" class="prices" placeholder="Wed PM turnip price">
+
+    <input type="number" class="prices" placeholder="Thu AM turnip price">
+    <input type="number" class="prices" placeholder="Thu PM turnip price">
+
+    <input type="number" class="prices" placeholder="Fri AM turnip price">
+    <input type="number" class="prices" placeholder="Fri PM turnip price">
+
+    <input type="number" class="prices" placeholder="Sat AM turnip price">
+    <input type="number" class="prices" placeholder="Sat PM turnip price">
+
+    <input type="button" value="Check your pattern" onclick="pattern_checker()">
+    <a href="https://www.thonky.com/animal-crossing-new-leaf/stalk-market" target="_blank">How do turnips work?</a>
+    <div class="sources">
+        <a href="https://cargocollective.com/tiffchow" target="_blank">Background artwork by Tiff Chow</a>
+        <br>
+        <a href="https://twitter.com/chitchatchiou/" target="_blank">Logo cropped from Chiou!</a>
+    </div>
 </div>
 
 <script src="js/turnip_tracker.js"></script>
