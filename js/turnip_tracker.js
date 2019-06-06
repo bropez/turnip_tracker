@@ -5,7 +5,7 @@ function fill_array() {
         my_array[i] = parseInt(prices[i].value);
     }
 
-    return my_array;
+    return my_array.filter(Boolean);
 }
 
 function is_decreasing(prev, curr) {
@@ -16,7 +16,7 @@ function is_decreasing(prev, curr) {
 }
 
 function sell_at(pattern, number) {
-    let message = ("It is " + pattern + " sell at " + number);
+    let message = ("Your pattern is " + pattern + ", sell at " + number);
     document.getElementById("pattern").innerHTML = message;
     console.log(message);
 }
@@ -29,7 +29,7 @@ function pattern_checker() {
 
     let consecutive_increase = 0;
 
-    let pattern_name = "uknown";
+    let pattern_name = "unknown";
     let sell_price = 0;
 
     for(let i = 0; i < my_arr.length; i++) {
