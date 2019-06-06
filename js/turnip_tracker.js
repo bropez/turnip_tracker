@@ -1,4 +1,5 @@
-function fill_array(my_array) {
+function fill_array() {
+    let my_array = [];
     let prices = document.getElementsByClassName("prices");
     for(let i = 0; i < prices.length; i++) {
         my_array[i] = parseInt(prices[i].value);
@@ -7,7 +8,7 @@ function fill_array(my_array) {
     return my_array;
 }
 
-function check_for_decrease(prev, curr) {
+function is_decreasing(prev, curr) {
     if((prev > curr) || (!prev)){
         return true;
     }
@@ -21,38 +22,56 @@ function sell_at(pattern, number) {
 }
 
 function pattern_checker() {
-    let decrease = true;
-    let increase_count = 0;
-    let all_prices = new Array(10);
-    let is_random = false;
+    let my_arr = fill_array();
+    let decreasing = true;
+    let decreasing_pattern = true;
+    let random_pattern = false;
 
-    all_prices = fill_array(all_prices)
+    let consecutive_increase = 0;
 
-    for (let i = 0; i < all_prices.length; i++) {
-        decrease = check_for_decrease(all_prices[i - 1], all_prices[i]);
+    let pattern_name = "uknown";
+    let sell_price = 0;
 
-        // TODO: implement an always decreasing pattern without affecting everything else
-        if (is_random) {
-            if (all_prices[i] >= 110) {
-                sell_at("random", all_prices[i]);
-                return all_prices[i];
+    for(let i = 0; i < my_arr.length; i++) {
+        decreasing = is_decreasing(my_arr[i-1], my_arr[i]);
+
+        // checking which patterns are active
+        if(decreasing === false) {
+            decreasing_pattern = false;
+        }
+        if(consecutive_increase && decreasing === true) {
+            random_pattern = true;
+        }
+
+
+        if(decreasing_pattern) {
+            if(i === 7) {
+                pattern_name = "decreasing";
+                sell_price = my_arr[i];
+                break;
             }
         }
-        else {
-            if (decrease === false) {
-                increase_count++;
-                if ((increase_count === 3) && (all_prices[i] >= 250)) {
-                    sell_at("big spike", all_prices[i]);
-                    return all_prices[i];
-                }
-                if (increase_count === 4) {
-                    sell_at("small spike", all_prices[i]);
-                    return all_prices[i];
-                }
+        else if(random_pattern) {
+            if (my_arr[i] >= 110) {
+                pattern_name = "random";
+                sell_price = my_arr[i];
+                break;
             }
-            else if (decrease && increase_count) {
-                is_random = true;
+        }
+        else if(decreasing === false) {
+            consecutive_increase++;
+            if(consecutive_increase === 3 && my_arr[i] >= 250) {
+                pattern_name = "big spike";
+                sell_price = my_arr[i];
+                break;
+            }
+            if(consecutive_increase === 4) {
+                pattern_name = "small spike";
+                sell_price = my_arr[i];
+                break;
             }
         }
     }
+
+    sell_at(pattern_name, sell_price);
 }
